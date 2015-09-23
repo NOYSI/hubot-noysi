@@ -13,7 +13,7 @@ class NoysiAdapter extends Adapter
     super
 
   send: (envelope, strings...) ->
-    @robot.logger.info envelope.user
+    # @robot.logger.info envelope.user
     for msg in strings
       @client.send({
         type : 'message',
@@ -22,7 +22,7 @@ class NoysiAdapter extends Adapter
       })
 
   reply: (envelope, strings...) ->
-    @robot.logger.info "reply ..."
+    # @robot.logger.info "reply ..."
     for msg in strings
       @send envelope, msg
 
@@ -54,8 +54,6 @@ class NoysiAdapter extends Adapter
 
     user = @robot.brain.userForId msg.uid
     user.room = msg.cid
-
-    @robot.logger.info msg
 
     @receive new TextMessage user, msg.text, msg.ts
 
