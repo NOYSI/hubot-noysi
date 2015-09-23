@@ -178,7 +178,6 @@ function NoysiClient(token) {
   this.onError = function (error) {
     log.error("Received error");
     log.error(error);
-
     self.waitAndReconnect();
   };
 
