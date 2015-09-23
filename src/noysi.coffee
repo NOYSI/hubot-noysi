@@ -29,7 +29,7 @@ class NoysiAdapter extends Adapter
   run: ->
     # Take our options from the environment, and set otherwise suitable defaults
     options =
-      token: process.env.HUBOT_NOYSI_TOKEN or "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRoOnVpZCI6Im5veXNpOnJvYm90IiwidGVhbTppZCI6InQzMWk1dWlrYSIsImlhdCI6MTQ0Mjk2MjY5NywieHNmciI6InNlY3JldDAifQ==.XNjqlBJiXN2LbJm842pt2dv8V8Jz13KP5b1IRiByXfY="
+      token: process.env.HUBOT_NOYSI_TOKEN or "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRoOnVpZCI6Im5veXNpOnJvYm90IiwidGVhbTppZCI6InQ1cWRpdnRiYSIsImlhdCI6MTQ0Mjk3NzM2MCwieHNmciI6InNlY3JldDAifQ==.3JMRGei7c4WL0lm_TuRR-bqN5V1wJRJ64vW-Hb4L9rY="
 
     @options = options
 

@@ -10,9 +10,9 @@ var _util = require('util');
 
 var _util2 = _interopRequireDefault(_util);
 
-var _http = require('http');
+var _https = require('https');
 
-var _http2 = _interopRequireDefault(_http);
+var _https2 = _interopRequireDefault(_https);
 
 var _querystring = require('querystring');
 
@@ -51,17 +51,17 @@ function NoysiClient(token) {
   this.start = function () {
 
     var options = {
-      hostname: 'localhost',
-      port: 9000,
-      method: 'GET',
+      hostname: 'noysi.com',
+      method: 'POST',
       path: '/api/rtm.start',
       headers: {
         'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json',
         'Content-Length': 0
       }
     };
 
-    var req = _http2['default'].request(options);
+    var req = _https2['default'].request(options);
 
     req.on('response', function (res) {
 
@@ -92,6 +92,7 @@ function NoysiClient(token) {
       //if callback? then callback({'ok': false, 'error': error.errno})
     });
 
+    req.write('');
     req.end();
   };
 
@@ -176,7 +177,8 @@ function NoysiClient(token) {
 
   this.onError = function (error) {
     log.error("Received error");
-    if (error && error.stack) log.error(error);
+    log.error(error);
+
     self.waitAndReconnect();
   };
 

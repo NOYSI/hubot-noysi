@@ -1,5 +1,5 @@
 import util from 'util'
-import http from 'http'
+import https from 'https'
 import querystring from 'querystring'
 import WebSocket from 'ws'
 import Log from 'log'
@@ -28,17 +28,17 @@ function NoysiClient(token) {
   this.start = function() {
 
     var options = {
-      hostname: 'localhost',
-      port : 9000,
-      method: 'GET',
+      hostname: 'noysi.com',
+      method: 'POST',
       path: '/api/rtm.start',
       headers: {
         'Authorization': 'Bearer ' + token,
+        'Content-Type' : 'application/json',
         'Content-Length' : 0
       }
     }
 
-    var req = http.request(options)
+    var req = https.request(options)
 
     req.on('response', (res) => {
 
@@ -72,6 +72,7 @@ function NoysiClient(token) {
       //if callback? then callback({'ok': false, 'error': error.errno})
     })
 
+    req.write('');
     req.end()
 
   }
@@ -117,7 +118,7 @@ function NoysiClient(token) {
   this.disconnect = function() {
 
     log.debug("Disconnected")
-    
+
     if(pongTimeout) {
       clearInterval(pongTimeout)
       pongTimeout = undefined;
@@ -167,8 +168,8 @@ function NoysiClient(token) {
 
   this.onError = function(error) {
     log.error("Received error")
-    if (error && error.stack)
-        log.error(error);
+    log.error(error);
+
     self.waitAndReconnect()
   }
 
