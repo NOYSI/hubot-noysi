@@ -100,7 +100,7 @@ function NoysiClient(token) {
     log.debug('connect ' + url);
     if (!url) {
       return false;
-    } else var lastPong = Date.now();
+    } else lastPong = Date.now();
     ws = new _ws2['default'](url);
     ws.on('open', function () {
 
@@ -184,7 +184,8 @@ function NoysiClient(token) {
   this.waitAndReconnect = function () {
     log.info('Waiting for reconnect');
     if (!reconnectTimer) {
-      var delay = Math.round(Math.random() * (10 - 5) + 5);
+      //var delay = Math.round(Math.random() * (10 - 5) + 5);
+      var delay = 3;
       log.info("Waiting " + delay + "s and then retrying...");
       reconnectTimer = setTimeout(function () {
         log.info("Attempting to reconnect...");
