@@ -134,23 +134,29 @@ function NoysiClient(token) {
     if (message.uid == 'noysi:robot')
       return
 
-    switch(message.type) {
-      case "im_open":
-          self.send({ 'type': 'message', translate: true, text: 'Hi again, I´m Noysi.  Nice to meet you. If you want more information about me, please write: noysi help', cid: message.channel.id })
+    try {
+
+      switch(message.type) {
+        case "im_open":
+            self.send({ 'type': 'message', translate: true, text: 'Hi again, I´m Noysi.  Nice to meet you. If you want more information about me, please write: noysi help', cid: message.cid })
+            break;
+        case "pong":
+          if (lastPong && Date.now() - lastPong > 30000)
+            //log.error("Last pong is too old: %d", (Date.now() - @_lastPong) / 1000)
+            self.disconnect()
+          else
+            lastPong = Date.now()
           break;
-      case "pong":
-        if (lastPong && Date.now() - lastPong > 30000)
-          //log.error("Last pong is too old: %d", (Date.now() - @_lastPong) / 1000)
-          self.disconnect()
-        else
-          lastPong = Date.now()
-        break;
-      case "hello":
-        connected = true
-        self.emit('open')
-        break;
-      case "message":
-        self.emit('message', message)
+        case "hello":
+          connected = true
+          self.emit('open')
+          break;
+        case "message":
+          self.emit('message', message)
+      }
+
+    } catch(e) {
+      log.error(e)
     }
 
   }
