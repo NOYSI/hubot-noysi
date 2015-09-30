@@ -48,10 +48,11 @@ function NoysiClient(token) {
 
   var reconnectTimer = undefined;
 
-  this.start = function () {
+  var options;
 
-    var options = {
-      hostname: 'noysi.com',
+  this.init = function (hostname) {
+    options = {
+      hostname: hostname,
       method: 'POST',
       path: '/api/rtm.start',
       headers: {
@@ -60,6 +61,10 @@ function NoysiClient(token) {
         'Content-Length': 0
       }
     };
+    this.start();
+  };
+
+  this.start = function () {
 
     var req = _https2['default'].request(options);
 
@@ -145,14 +150,17 @@ function NoysiClient(token) {
 
   this.onMessage = function (message) {
 
-    if (message.uid == 'noysi:robot') return;
+    if (!message.type) {
+      return;
+    }
+
+    if (message.uid == 'noysi:robot') {
+      return;
+    }
 
     try {
 
       switch (message.type) {
-        case "im_open":
-          self.send({ 'type': 'message', translate: true, text: 'Hi again, I´m Noysi.  Nice to meet you. If you want more information about me, please write: noysi help', cid: message.cid });
-          break;
         case "pong":
           if (lastPong && Date.now() - lastPong > 30000)
             //log.error("Last pong is too old: %d", (Date.now() - @_lastPong) / 1000)
@@ -162,7 +170,7 @@ function NoysiClient(token) {
           connected = true;
           self.emit('open');
           break;
-        case "message":
+        default:
           self.emit('message', message);
       }
     } catch (e) {
@@ -190,7 +198,7 @@ function NoysiClient(token) {
     log.info('Waiting for reconnect');
     if (!reconnectTimer) {
       //var delay = Math.round(Math.random() * (10 - 5) + 5);
-      var delay = 3;
+      var delay = 10;
       log.info("Waiting " + delay + "s and then retrying...");
       reconnectTimer = setTimeout(function () {
         log.info("Attempting to reconnect...");
