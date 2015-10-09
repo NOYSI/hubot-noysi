@@ -30,8 +30,8 @@ function NoysiClient(token) {
   this.init = function(hostname) {
     options = {
       hostname: hostname,
-      method: 'POST',
-      path: '/api/rtm.start',
+      method: 'PUT',
+      path: '/v1/authorize',
       headers: {
         'Authorization': 'Bearer ' + token,
         'Content-Type' : 'application/json',
