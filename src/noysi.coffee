@@ -17,6 +17,7 @@ class NoysiAdapter extends Adapter
     for msg in strings
       @client.send({
         type : 'message',
+        tid : envelope.user.tid,
         cid : envelope.user.room,
         text : msg
       })
@@ -54,10 +55,13 @@ class NoysiAdapter extends Adapter
 
     if msg.type == 'message'
       user = @robot.brain.userForId msg.uid
+      user.tid = msg.tid
       user.room = msg.cid
       @receive new TextMessage user, msg.text, msg.ts
     else
+      @robot.logger.info msg.type
       user = @robot.brain.userForId "noysi:robot"
+      user.tid = msg.tid
       user.room = msg.cid
       @receive new TextMessage user, msg.type, msg.ts
 
