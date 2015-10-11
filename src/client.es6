@@ -140,7 +140,7 @@ function NoysiClient(token) {
       return
     }
 
-    if (message.uid == 'noysi:robot') {
+    if (message.type == 'message' && message.uid == 'noysi:robot') {
       return
     }
 
