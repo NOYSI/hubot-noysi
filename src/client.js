@@ -37,7 +37,7 @@ function NoysiClient(token) {
   var url = null;
   var ws = null;
 
-  var i = 0;
+  //var i              = 0;
 
   var log = new _log2['default']('debug');
 
@@ -182,7 +182,7 @@ function NoysiClient(token) {
     if (!connected) {
       return false;
     } else {
-      message.id = ++i;
+      //message.id = ++i
       ws.send(JSON.stringify(message));
       return message;
     }
