@@ -19,6 +19,6 @@ HUBOT needs yeoman to generate the HUBOT code. These steps will install HUBOT, y
   3. ```cd /path/to/hubot```
   4. ```yo hubot```
   5. ```npm install hubot-noysi hubot-conversation --save```  
-  6. ```bin/hubot -a noysi
+  6. ```bin/hubot -a noysi```
   
 #CONTINUES
