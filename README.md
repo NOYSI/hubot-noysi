@@ -27,3 +27,4 @@ Now it is needed to include the token generated in *Getting a TOKEN from Noysi* 
   3. Run your HUBOT with the token passed as an argument: ```NOYSI_TOKEN=<your_token_here>./bin/hubot -a noysi```
   
 ### Building your own HUBOT scripts
+In construction...
