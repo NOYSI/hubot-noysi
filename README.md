@@ -19,6 +19,7 @@ HUBOT needs yeoman to generate the HUBOT code. These steps will install HUBOT, y
   3. ```cd /path/to/hubot```
   4. ```yo hubot```
   5. ```npm install hubot-noysi hubot-conversation --save```
+  6. ```npm link hubot-noysi/```
  
 ### Configuring HUBOT to use Noysi Token  
 Now it is needed to include the token generated in *Getting a TOKEN from Noysi* section to your new HUBOT instance. It can be achieved in at least three ways:  
