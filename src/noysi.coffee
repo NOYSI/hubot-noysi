@@ -1,9 +1,9 @@
 # Hubot dependencies
 try
-  {Robot,Adapter,TextMessage,User} = require 'hubot'
+  {Robot,Adapter,EnterMessage,TextMessage,User} = require 'hubot'
 catch
   prequire = require('parent-require')
-  {Robot,Adapter,TextMessage,User} = prequire 'hubot'
+  {Robot,Adapter,EnterMessage,TextMessage,User} = prequire 'hubot'
 
 NoysiClient = require './client'
 
@@ -58,6 +58,12 @@ class NoysiAdapter extends Adapter
       user.tid = msg.tid
       user.room = msg.cid
       @receive new TextMessage user, msg.text, msg.ts
+    else if msg.type == 'channel_joined'
+      @robot.logger.info msg.uid + ' Joined ' + msg.cid
+      user = @robot.brain.userForId msg.uid
+      user.tid = msg.tid
+      user.room = msg.cid
+      @receive new EnterMessage user, msg.type, msg.ts
     else
       @robot.logger.info msg.type
       user = @robot.brain.userForId "noysi:robot"
