@@ -54,16 +54,14 @@ class NoysiAdapter extends Adapter
       @loadScripts = false
 
   message: (msg) =>
-    # @robot.logger.info 'Type: ' + msg.type + ' User: ' + msg.uid + ' Text: ' + msg.text
+    #@robot.logger.info 'Type: ' + msg.type + ' User: ' + msg.uid + ' Text: ' + msg.text
     # @robot.logger.info msg
     # Msg.types => message, channel_joined, team_joined, member_deleted, channel_opened, channel_deleted
     if msg.type is 'team_joined'
       @robot.logger.info msg
       user = @robot.brain.userForId msg.user.id
       user.tid = msg.user.tid
-      console.log user.firstMsg
-      @receive new EnterMessage user if (user.firstMsg is true or user.firstMsg is null or user.firstMsg is undefined)
-      user.firstMsg = false
+      @receive new EnterMessage user
     #else if msg.type is 'message' and /^noysi:([^\s]+).*joined/i.test(msg.text)
     #  @robot.logger.info msg.uid + ' Joined ' + msg.cid
     #  user = @robot.brain.userForId msg.uid
@@ -71,7 +69,7 @@ class NoysiAdapter extends Adapter
     #  user.room = msg.cid
     #  @receive new EnterMessage user, msg.type, msg.ts
     else if msg.type is 'message' and /^noysi:([^\s]+).*left/i.test(msg.text)
-      @robot.logger.info msg.uid + ' left ' + msg.cid
+      #@robot.logger.info msg.uid + ' left ' + msg.cid
       user = @robot.brain.userForId msg.uid
       user.room = msg.cid
       @receive new LeaveMessage user, msg.type, msg.ts

@@ -183,6 +183,14 @@ function NoysiClient(token) {
       return false;
     } else {
       //message.id = ++i
+      if (message.text && message.text.text) {
+        message['args'] = message.text.args;
+        message['translate'] = true;
+        message['text'] = message.text.text;
+        delete message.text.text;
+        delete message.text.args;
+        delete message.text.translate;
+      }
       ws.send(JSON.stringify(message));
       return message;
     }
