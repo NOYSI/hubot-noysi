@@ -1,0 +1,19 @@
+{
+  "name": "hubot-noysi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/noysi.coffee",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luis Gervaso",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "0.4.31",
+    "log": "1.4.0",
+    "parent-require": "^1.0.0"
+  },
+  "devDependencies": {
+    "coffee-script": ">=1.2.0"
+  }
+}
