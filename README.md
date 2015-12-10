@@ -18,12 +18,11 @@ HUBOT needs yeoman to generate the HUBOT code. These steps will install HUBOT, y
   2. ```mkdir /path/to/hubot```
   3. ```cd /path/to/hubot```
   4. ```yo hubot```
-  5. ```npm install hubot-noysi hubot-conversation --save```
-  6. ```npm link hubot-noysi/```
+  5. ```npm install hubot-noysi --save```
  
 ### Configuring HUBOT to use Noysi Token  
 Now it is needed to include the token generated in *Getting a TOKEN from Noysi* section to your new HUBOT instance. It can be achieved in at least three ways:  
-  1. Edit your ```~/.bashrc```file to include a new environment variable like: ```export NOYSI_TOKEN=<your_token_here>```. Don't forge to logout or do a ```source ~/.bashrc``` so your new variable it is available to HUBOT.  
+  1. Edit your ```~/.bashrc```file to include a new environment variable like: ```export NOYSI_TOKEN=<your_token_here>```. Don't forget to logout or do a ```source ~/.bashrc``` so your new variable it is available to HUBOT.  
   2. Edit ```/path/to/hubot/node_modules/hubot-noysi/src/noysi.coffee```in line ```33``` set ```token: process.env.NOYSI_TOKEN or "<your_token_here>"```  
   3. Run your HUBOT with the token passed as an argument: ```NOYSI_TOKEN=<your_token_here>./bin/hubot -a noysi```
   
