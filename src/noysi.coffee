@@ -1,9 +1,12 @@
 # Hubot dependencies
 try
-  {Robot,Adapter,TextMessage,User} = require 'hubot'
+  {JoinTeamMessage,Robot,Adapter,EnterMessage,LeaveMessage,TextMessage,User} = require 'hubot'
 catch
   prequire = require('parent-require')
-  {Robot,Adapter,TextMessage,User} = prequire 'hubot'
+  {JoinTeamMessage,Robot,Adapter,EnterMessage,LeaveMessage,TextMessage,User} = prequire 'hubot'
+
+#{NoysiBotListener} = require './listener'
+#{JoinTeamMessage} = require './message'
 
 NoysiClient = require './client'
 
@@ -13,7 +16,6 @@ class NoysiAdapter extends Adapter
     super
 
   send: (envelope, strings...) ->
-    # @robot.logger.info envelope.user
     for msg in strings
       @client.send({
         type : 'message',
@@ -30,7 +32,7 @@ class NoysiAdapter extends Adapter
   run: ->
     # Take our options from the environment, and set otherwise suitable defaults
     options =
-      token: process.env.NOYSI_TOKEN or "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRoOnVpZCI6Im5veXNpOnJvYm90IiwicGVybWlzc2lvbnMiOm51bGwsImlhdCI6MTQ0NDM2OTU1OX0=.TUN9WdYTSjdkOGXsM_OIG84Nm7I1QnFszYPW3VSgjY0="
+      token: process.env.NOYSI_TOKEN
 
     @options = options
 
@@ -52,18 +54,37 @@ class NoysiAdapter extends Adapter
       @loadScripts = false
 
   message: (msg) =>
-
-    if msg.type == 'message'
+    #@robot.logger.info 'Type: ' + msg.type + ' User: ' + msg.uid + ' Text: ' + msg.text
+    # @robot.logger.info msg
+    # Msg.types => message, channel_joined, team_joined, member_deleted, channel_opened, channel_deleted
+    if msg.type is 'team_joined'
+      @robot.logger.info msg
+      user = @robot.brain.userForId msg.user.id
+      user.tid = msg.user.tid
+      @receive new EnterMessage user
+    #else if msg.type is 'message' and /^noysi:([^\s]+).*joined/i.test(msg.text)
+    #  @robot.logger.info msg.uid + ' Joined ' + msg.cid
+    #  user = @robot.brain.userForId msg.uid
+    #  user.tid = msg.tid
+    #  user.room = msg.cid
+    #  @receive new EnterMessage user, msg.type, msg.ts
+    else if msg.type is 'message' and /^noysi:([^\s]+).*left/i.test(msg.text)
+      #@robot.logger.info msg.uid + ' left ' + msg.cid
+      user = @robot.brain.userForId msg.uid
+      user.room = msg.cid
+      @receive new LeaveMessage user, msg.type, msg.ts
+    else if msg.type is 'message'
       user = @robot.brain.userForId msg.uid
       user.tid = msg.tid
       user.room = msg.cid
       @receive new TextMessage user, msg.text, msg.ts
-    else
-      @robot.logger.info msg.type
-      user = @robot.brain.userForId "noysi:robot"
-      user.tid = msg.tid
-      user.room = msg.cid
-      @receive new TextMessage user, msg.type, msg.ts
+    #else if msg.type == ''
+    # else
+    #  @robot.logger.info msg.type
+    #  user = @robot.brain.userForId "noysi:robot"
+    #  user.tid = msg.tid
+    #  user.room = msg.cid
+    #  @receive new TextMessage user, msg.type, msg.ts
 
 exports.use = (robot) ->
   new NoysiAdapter robot
