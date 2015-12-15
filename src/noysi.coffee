@@ -16,6 +16,7 @@ class NoysiAdapter extends Adapter
     super
 
   send: (envelope, strings...) ->
+    console.log strings
     for msg in strings
       @client.send({
         type : 'message',
@@ -45,7 +46,7 @@ class NoysiAdapter extends Adapter
     @client.on 'open', @.open
     @client.on 'message', @.message
 
-    @client.init(process.env.NOYSI_HOSTNAME or "dev.noysi.com")
+    @client.init(process.env.NOYSI_HOSTNAME or "noysi.com")
 
   open: =>
     @robot.logger.info 'Noysi client now connected'
@@ -58,7 +59,7 @@ class NoysiAdapter extends Adapter
     # @robot.logger.info msg
     # Msg.types => message, channel_joined, team_joined, member_deleted, channel_opened, channel_deleted
     if msg.type is 'team_joined'
-      @robot.logger.info msg
+      #@robot.logger.info msg
       user = @robot.brain.userForId msg.user.id
       user.tid = msg.user.tid
       @receive new EnterMessage user
@@ -74,6 +75,7 @@ class NoysiAdapter extends Adapter
       user.room = msg.cid
       @receive new LeaveMessage user, msg.type, msg.ts
     else if msg.type is 'message'
+      @robot.logger.info msg
       user = @robot.brain.userForId msg.uid
       user.tid = msg.tid
       user.room = msg.cid
