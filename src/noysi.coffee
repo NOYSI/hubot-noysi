@@ -16,9 +16,7 @@ class NoysiAdapter extends Adapter
     super
 
   send: (envelope, strings...) ->
-    console.log strings
     for msg in strings
-      msg.replace(/</g,'&lt;').replace(/>/g,'&gt;')
       @client.send({
         type : 'message',
         tid : envelope.user.tid,
@@ -61,7 +59,7 @@ class NoysiAdapter extends Adapter
     # Msg.types => message, channel_joined, team_joined, member_deleted, channel_opened, channel_deleted
     #if msg.type is 'team_joined'
     if msg.type is 'tour_completed'
-      @robot.logger.info msg
+      #@robot.logger.info msg
       user = @robot.brain.userForId msg.uid
       user.tid = msg.tid
       @receive new EnterMessage user
@@ -77,7 +75,7 @@ class NoysiAdapter extends Adapter
       user.room = msg.cid
       @receive new LeaveMessage user, msg.type, msg.ts
     else if msg.type is 'message'
-      @robot.logger.info msg
+      #@robot.logger.info msg
       user = @robot.brain.userForId msg.uid
       user.tid = msg.tid
       user.room = msg.cid
