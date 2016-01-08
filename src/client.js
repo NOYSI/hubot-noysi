@@ -191,7 +191,10 @@ function NoysiClient(token) {
         delete message.text.args;
         delete message.text.translate;
       }
-      ws.send(JSON.stringify(message));
+      var msg = JSON.stringify(message);
+      msg.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      console.log(msg);
+      ws.send(msg);
       return message;
     }
   };
