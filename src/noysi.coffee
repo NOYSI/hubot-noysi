@@ -71,9 +71,10 @@ class NoysiAdapter extends Adapter
     #  @receive new EnterMessage user, msg.type, msg.ts
     else if msg.type is 'message' and /^noysi:([^\s]+).*left/i.test(msg.text)
       #@robot.logger.info msg.uid + ' left ' + msg.cid
-      user = @robot.brain.userForId msg.uid
-      user.room = msg.cid
-      @receive new LeaveMessage user, msg.type, msg.ts
+      #...
+      #user = @robot.brain.userForId msg.uid
+      #user.room = msg.cid
+      #@receive new LeaveMessage user, msg.type, msg.ts
     else if msg.type is 'message'
       #@robot.logger.info msg
       user = @robot.brain.userForId msg.uid
